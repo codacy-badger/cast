@@ -63,7 +63,7 @@ public final class Cast {
      * <ul>
      *     <li>如果要转换的对象为 {@code null}，返回提供的默认值</li>
      *     <li>如果要转化的对象为 {@code CharSequence}，调用 toString 方法后返回</li>
-     *     <li>如果要转化的对象为数组或集合，则会直接调用元素的 {@code String.valueOf} 方法，并且将其连接起来，用英文逗号分隔。例：[1,2,3] -> "1,2,3"</li>
+     *     <li>如果要转化的对象为数组或集合，则会直接调用元素的 {@code String.valueOf} 方法，并且将其连接起来，用英文逗号分隔。例：[1,2,3] - "1,2,3"</li>
      *     <li>如果要转化的对象为 {@code Clob}，则将其转换为 {@code String}，{@link Clob#getCharacterStream()}</li>
      *     <li>如果要转化的对象为 {@code Enum}，则会调动枚举对象的 {@code name} 方法</li>
      *     <li>其他类型，则会直接调用 {@code toString} 方法</li>
