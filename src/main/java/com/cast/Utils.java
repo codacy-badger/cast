@@ -106,16 +106,16 @@ final class Utils {
             return (T) value;
         }
         if (targetClass == Byte.class) {
-            return (T) Byte.valueOf(value.byteValue());
+            return (T) Byte.valueOf(byteValue(value));
         }
         if (targetClass == Short.class) {
-            return (T) Short.valueOf(value.shortValue());
+            return (T) Short.valueOf(shortValue(value));
         }
         if (targetClass == Integer.class) {
-            return (T) Integer.valueOf(value.intValue());
+            return (T) Integer.valueOf(intValue(value));
         }
         if (targetClass == Long.class) {
-            return (T) Long.valueOf(value.longValue());
+            return (T) Long.valueOf(longValue(value));
         }
         if (targetClass == Float.class) {
             return (T) Float.valueOf(value.floatValue());
@@ -376,6 +376,42 @@ final class Utils {
             return ((BigInteger) number).toByteArray();
         }
         return null;
+    }
+
+    private static byte byteValue(Number value) {
+        if(value instanceof BigDecimal) {
+            BigDecimal bigDecimal = (BigDecimal) value;
+            int scale = bigDecimal.scale();
+            return scale >= -100 && scale <= 100 ? bigDecimal.byteValue() : bigDecimal.byteValueExact();
+        }
+        return value.byteValue();
+    }
+
+    private static short shortValue(Number value) {
+        if(value instanceof BigDecimal) {
+            BigDecimal bigDecimal = (BigDecimal) value;
+            int scale = bigDecimal.scale();
+            return scale >= -100 && scale <= 100 ? bigDecimal.shortValue() : bigDecimal.shortValueExact();
+        }
+        return value.shortValue();
+    }
+
+    private static int intValue(Number value) {
+        if(value instanceof BigDecimal) {
+            BigDecimal bigDecimal = (BigDecimal) value;
+            int scale = bigDecimal.scale();
+            return scale >= -100 && scale <= 100 ? bigDecimal.intValue() : bigDecimal.intValueExact();
+        }
+        return value.intValue();
+    }
+
+    private static long longValue(Number value) {
+        if(value instanceof BigDecimal) {
+            BigDecimal bigDecimal = (BigDecimal) value;
+            int scale = bigDecimal.scale();
+            return scale >= -100 && scale <= 100 ? bigDecimal.longValue() : bigDecimal.longValueExact();
+        }
+        return value.longValue();
     }
 
 }

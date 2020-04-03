@@ -52,9 +52,26 @@ public final class Cast {
      * @param obj 要转化的对象
      * @return 转化后的 {@code Character}
      * @throws CastException 指定对象不能转换为 {@code Character} 时
+     * @see Cast#toChar(Object, Character)
      */
     public static Character toChar(Object obj) {
         return Converter.TO_CHAR_CONVERTER.convert(obj);
+    }
+
+    /**
+     * 将制定对象转换为 {@code char}，如果不能转换，将返回 char 类型的零值。
+     * <p>该方法的转换规则与 {@link Cast#toChar(Object, Character)} 一致，只不过在无法转换时，将会抛出异常</p>
+     *
+     * @param obj 要转化的对象
+     * @return 转换后的 char 或 其零值
+     */
+    public static char toCharValue(Object obj) {
+        try {
+            Character result = Converter.TO_CHAR_CONVERTER.convert(obj);
+            return result == null ? 0 : result;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     /**
@@ -89,6 +106,7 @@ public final class Cast {
      * @param obj 要转化的对象
      * @return 转化后的 {@code String}
      * @throws CastException 指定对象不能转换为 {@code String} 时
+     * @see Cast#toStr(Object, String)
      */
     public static String toStr(Object obj) {
         return Converter.TO_STRING_CONVERTER.convert(obj);
@@ -127,9 +145,27 @@ public final class Cast {
      * @param obj 要转化的对象
      * @return 转化后的 {@code Boolean} 值
      * @throws CastException 指定对象不能转化为 {@code Boolean} 时抛出异常
+     * @see Cast#toBool(Object, Boolean)
      */
     public static Boolean toBool(Object obj) {
         return Converter.TO_BOOLEAN_CONVERTER.convert(obj);
+    }
+
+    /**
+     * 将制定对象转换为 {@code boolean}，如果不能转换，将返回 {@code false}。
+     * <p>该方法的转换规则与 {@link Cast#toBool(Object, Boolean)} 一致，只不过在无法转换时，将会抛出异常</p>
+     *
+     * @param obj 要转化的对象
+     * @return 转换后的 boolean 或 {@code false}
+     * @see Cast#toBool(Object, Boolean)
+     */
+    public static boolean toBoolValue(Object obj) {
+        try {
+            Boolean result = Converter.TO_BOOLEAN_CONVERTER.convert(obj);
+            return result == null ? false : result;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -139,6 +175,7 @@ public final class Cast {
      *     <li>如果指定的对象为 {@code null}，直接返回指定的默认值</li>
      *     <li>如果指定的对象为 {@code Number}，则会调用 {@code byteValue()}方法将其转换为 {@code Byte}，有可能会损失精度</li>
      *     <li>如果指定的对象为 {@code CharSequence}，则会调用 {@link Byte#valueOf(byte)} 或 {@link Byte#decode(String)} 方法将其转换为 {@code Byte}</li>
+     *     <li>如果指定的对象为 {@code Boolean}，如果其值为{@code true}，则返回 1，否则返回 0</li>
      *     <li>如果指定对象为 Enum，则会调用枚举的 {@link Enum#ordinal()} 方法返回 {@code Byte} 值</li>
      * </ul>
      *
@@ -161,9 +198,27 @@ public final class Cast {
      * @param obj 要转换的对象
      * @return 转换后的 {@code Byte} 实例或指定的默认值
      * @throws CastException 不能完成转换时将抛出该异常
+     * @see Cast#toByte(Object, Byte)
      */
     public static Byte toByte(Object obj) {
         return Converter.TO_NUMBER_CONVERTER.convert(obj, Byte.class);
+    }
+
+    /**
+     * 将制定对象转换为 {@code byte}，如果不能转换，将返回 {@code 0}。
+     * <p>该方法的转换规则与 {@link Cast#toByte(Object, Byte)} 一致，只不过在无法转换时，将会抛出异常</p>
+     *
+     * @param obj 要转化的对象
+     * @return 转换后的 boolean 或 {@code 0}
+     * @see Cast#toByte(Object, Byte)
+     */
+    public static byte toByteValue(Object obj) {
+        try {
+            Byte result = Converter.TO_NUMBER_CONVERTER.convert(obj, Byte.class);
+            return result == null ? 0 : result;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     /**
@@ -196,6 +251,22 @@ public final class Cast {
     }
 
     /**
+     * 将指定对象转换为 {@code short}，如果不能完成转换则返回 {@code 0}，转换规则与 {@link Cast#toByte(Object, Byte)} 类似.
+     *
+     * @param obj 要转换的对象
+     * @return 转换后的 {@code short} 值或 {@code 0}
+     * @see Cast#toByte(Object, Byte)
+     */
+    public static short toShortValue(Object obj) {
+        try {
+            Short result = Converter.TO_NUMBER_CONVERTER.convert(obj, Short.class);
+            return result == null ? 0 : result;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    /**
      * 将指定对象转换为 {@code Integer}，如果不能完成转换返回指定的默认值，转换规则与 {@link Cast#toByte(Object, Byte)} 类似.
      *
      * @param obj 要转换的对象
@@ -222,6 +293,21 @@ public final class Cast {
      */
     public static Integer toInteger(Object obj) {
         return Converter.TO_NUMBER_CONVERTER.convert(obj, Integer.class);
+    }
+
+    /**
+     *
+     *
+     * @param obj
+     * @return
+     */
+    public static int toIntValue(Object obj) {
+        try {
+            Integer result = Converter.TO_NUMBER_CONVERTER.convert(obj, Integer.class);
+            return result == null ? 0 : result;
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     /**
@@ -253,6 +339,15 @@ public final class Cast {
         return Converter.TO_NUMBER_CONVERTER.convert(obj, Long.class);
     }
 
+    public static long toLongValue(Object obj) {
+        try {
+            Long result = Converter.TO_NUMBER_CONVERTER.convert(obj, Long.class);
+            return result == null ? 0 : result;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
     /**
      * 将指定对象转换为 {@code Float}，如果不能完成转换返回指定的默认值，转换规则与 {@link Cast#toByte(Object, Byte)} 类似.
      *
@@ -282,6 +377,15 @@ public final class Cast {
         return Converter.TO_NUMBER_CONVERTER.convert(obj, Float.class);
     }
 
+    public static float toFloatValue(Object obj) {
+        try {
+            Float result = Converter.TO_NUMBER_CONVERTER.convert(obj, Float.class);
+            return result == null ? 0.0F : result;
+        } catch (Exception e) {
+            return 0.0F;
+        }
+    }
+
     /**
      * 将指定对象转换为 {@code Double}，如果不能完成转换返回指定的默认值，转换规则与 {@link Cast#toByte(Object, Byte)} 类似.
      *
@@ -309,6 +413,15 @@ public final class Cast {
      */
     public static Double toDouble(Object obj) {
         return Converter.TO_NUMBER_CONVERTER.convert(obj, Double.class);
+    }
+
+    public static double toDoubleValue(Object obj) {
+        try {
+            Double result = Converter.TO_NUMBER_CONVERTER.convert(obj, Double.class);
+            return result == null ? 0.0 : result;
+        } catch (Exception e) {
+            return 0.0;
+        }
     }
 
     /**

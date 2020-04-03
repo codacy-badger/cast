@@ -28,9 +28,13 @@ class ToNumberConverter extends ConditionConverter<Number> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T extends Number> T convert(Object obj, Class<T> targetClass) {
         if (obj == null) {
             return null;
+        }
+        if(obj.getClass() == targetClass) {
+            return (T) obj;
         }
         if (obj instanceof Number) {
             return Utils.numberToTarget((Number) obj, targetClass);
@@ -40,6 +44,13 @@ class ToNumberConverter extends ConditionConverter<Number> {
         }
         if (obj instanceof Character) {
             return Utils.numberToTarget((short) ((Character) obj).charValue(), targetClass);
+        }
+        if(obj instanceof Boolean) {
+            Integer result = (Boolean) obj ? 1: 0;
+            if(targetClass == Integer.class) {
+                return (T) result;
+            }
+            return Utils.numberToTarget(result, targetClass);
         }
         if (Utils.isEnum(obj)) {
             return Utils.numberToTarget(((Enum) obj).ordinal(), targetClass);
