@@ -9,6 +9,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -196,7 +197,7 @@ public final class Cast {
      * 将指定对象转换为 {@code Byte}，如果不能完成转换将抛出异常。转换规则与 {@link Cast#toByte(Object, Byte)} 一致。
      *
      * @param obj 要转换的对象
-     * @return 转换后的 {@code Byte} 实例或指定的默认值
+     * @return 转换后的 {@code Byte} 实例
      * @throws CastException 不能完成转换时将抛出该异常
      * @see Cast#toByte(Object, Byte)
      */
@@ -242,7 +243,7 @@ public final class Cast {
      * 将指定对象转换为 {@code Short}，如果不能完成转换将会抛出异常，转换规则与 {@link Cast#toByte(Object, Byte)} 类似.
      *
      * @param obj 要转换的对象
-     * @return 转换后的 {@code Short} 实例或提供的默认值
+     * @return 转换后的 {@code Short} 实例
      * @throws CastException 不能完成转换时抛出该异常信息
      * @see Cast#toByte(Object, Byte)
      */
@@ -287,7 +288,7 @@ public final class Cast {
      * 将指定对象转换为 {@code Integer}，如果不能完成转换将会抛出异常，转换规则与 {@link Cast#toByte(Object, Byte)} 类似.
      *
      * @param obj 要转换的对象
-     * @return 转换后的 {@code Integer} 实例或提供的默认值
+     * @return 转换后的 {@code Integer} 实例
      * @throws CastException 不能完成转换时抛出该异常信息
      * @see Cast#toByte(Object, Byte)
      */
@@ -296,10 +297,11 @@ public final class Cast {
     }
 
     /**
+     * 将指定对象转换为 {@code int}，如果不能完成转换将会返回 {@code 0}，转换规则与 {@link Cast#toByte(Object, Byte)} 类似.
      *
-     *
-     * @param obj
-     * @return
+     * @param obj 要转换的对象
+     * @return 转换后的 {@code int} 值或 {@code 0}
+     * @see Cast#toByte(Object, Byte)
      */
     public static int toIntValue(Object obj) {
         try {
@@ -331,7 +333,7 @@ public final class Cast {
      * 将指定对象转换为 {@code Long}，如果不能完成转换将会抛出异常，转换规则与 {@link Cast#toByte(Object, Byte)} 类似.
      *
      * @param obj 要转换的对象
-     * @return 转换后的 {@code Long} 实例或提供的默认值
+     * @return 转换后的 {@code Long} 实例
      * @throws CastException 不能完成转换时抛出该异常信息
      * @see Cast#toByte(Object, Byte)
      */
@@ -339,6 +341,13 @@ public final class Cast {
         return Converter.TO_NUMBER_CONVERTER.convert(obj, Long.class);
     }
 
+    /**
+     * 将指定对象转换为 {@code long}，如果不能完成转换将返回 {@code 0}，转换规则与 {@link Cast#toByte(Object, Byte)} 类似.
+     *
+     * @param obj 要转换的对象
+     * @return 转换后的 {@code long} 值或 {@code 0}
+     * @see Cast#toByte(Object, Byte)
+     */
     public static long toLongValue(Object obj) {
         try {
             Long result = Converter.TO_NUMBER_CONVERTER.convert(obj, Long.class);
@@ -377,6 +386,13 @@ public final class Cast {
         return Converter.TO_NUMBER_CONVERTER.convert(obj, Float.class);
     }
 
+    /**
+     * 将指定对象转换为 {@code float}，如果不能完成转换将返回 {@code 0.0}，转换规则与 {@link Cast#toByte(Object, Byte)} 类似.
+     *
+     * @param obj 要转换的对象
+     * @return 转换后的 {@code float} 值或 {@code 0.0}
+     * @see Cast#toByte(Object, Byte)
+     */
     public static float toFloatValue(Object obj) {
         try {
             Float result = Converter.TO_NUMBER_CONVERTER.convert(obj, Float.class);
@@ -415,6 +431,13 @@ public final class Cast {
         return Converter.TO_NUMBER_CONVERTER.convert(obj, Double.class);
     }
 
+    /**
+     * 将指定对象转换为 {@code double}，如果不能完成转换将返回 {@code 0.0}，转换规则与 {@link Cast#toByte(Object, Byte)} 类似.
+     *
+     * @param obj 要转换的对象
+     * @return 转换后的 {@code double} 值或 {@code 0.0}
+     * @see Cast#toByte(Object, Byte)
+     */
     public static double toDoubleValue(Object obj) {
         try {
             Double result = Converter.TO_NUMBER_CONVERTER.convert(obj, Double.class);
@@ -612,7 +635,7 @@ public final class Cast {
      * @param <T> 枚举类型
      * @return 转换后的指定类型的枚举值
      */
-    public static <T extends Enum> T toEnum(Object obj, Class<T> targetClass, T defaultValue) {
+    public static <T extends Enum<T>> T toEnum(Object obj, Class<T> targetClass, T defaultValue) {
         try {
             T result = Converter.TO_ENUM_CONVERTER.convert(obj, targetClass);
             return result == null ? defaultValue : result;
@@ -621,7 +644,16 @@ public final class Cast {
         }
     }
 
-    public static <T extends Enum> T toEnum(Object obj, Class<T> targetClass) {
+    /**
+     * 将指定的对象转换为枚举类型实例，根据指定的 {@code targetClass} 去转换，如果不能转换，将会抛出异常
+     *
+     * @param obj 要转化的对象
+     * @param targetClass 目标枚举类型
+     * @param <T> 枚举类型
+     * @return 转换后的指定类型的枚举值
+     * @throws CastException 如果不能完成转换将会抛出此异常
+     */
+    public static <T extends Enum<T>> T toEnum(Object obj, Class<T> targetClass) {
         return Converter.TO_ENUM_CONVERTER.convert(obj, targetClass);
     }
 
@@ -704,11 +736,126 @@ public final class Cast {
      * @return 解析后的 {@link TimeZone} 实例
      * @throws CastException 指定的字符串为 {@code null} 或空字符串或不能解析为相应的 {@link TimeZone}时，抛出该异常
      */
+    @Deprecated
     public static TimeZone toTimeZone(String timeZoneStr) {
         if(Utils.isEmpty(timeZoneStr)) {
             throw new CastException("the time zone string is null or empty");
         }
         return TimeZone.getTimeZone(timeZoneStr);
+    }
+
+    /**
+     * 解析指定的字符串为 {@link Locale}，如果指定的字符串为 {@code null} 或空字符串，或不能解析为 {@link Locale} 时，则会返回指定的默认值。
+     * <p>字符串是以下划线（_）进行分隔的格式化字符串，示例：</p>
+     * <ul>
+     *     <li>language</li>
+     *     <li>language_country</li>
+     *     <li>language_country_variant</li>
+     * </ul>
+     *
+     * @param localStr 以下划线（_）分隔的可以表示 {@code Local} 的特定字符串
+     * @param defaultValue 提供的默认值
+     * @return 转化后的 {@link Locale} 实例或提供的默认值
+     * @see Locale
+     */
+    public static Locale toLocale(String localStr, Locale defaultValue) {
+        if(Utils.isEmpty(localStr)) {
+            return defaultValue;
+        }
+        try {
+            String[] items = localStr.split("_");
+            if(items.length == 1) {
+                return new Locale(items[0]);
+            } else {
+                return items.length == 2 ? new Locale(items[0], items[1]) : new Locale(items[0], items[1], items[2]);
+            }
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T to(Object obj, Class<T> targetClass) {
+        if(targetClass == null) {
+            throw new CastException("the target class is null");
+        }
+        if(obj == null) {
+            if(targetClass == Character.TYPE) {
+                return (T) Character.valueOf((char) 0);
+            }
+            if(targetClass == Byte.TYPE) {
+                return (T) Byte.valueOf((byte) 0);
+            }
+            if(targetClass == Short.TYPE) {
+                return (T) Short.valueOf((short) 0);
+            }
+            if(targetClass == Integer.TYPE) {
+                return (T) Integer.valueOf(0);
+            }
+            if(targetClass == Long.TYPE) {
+                return (T) Long.valueOf(0);
+            }
+            if(targetClass == Float.TYPE) {
+                return (T) Float.valueOf(0.0F);
+            }
+            if(targetClass == Double.TYPE) {
+                return (T) Double.valueOf(0.0);
+            }
+            if(targetClass == Boolean.TYPE) {
+                return (T) Boolean.FALSE;
+            }
+            return null;
+        }
+        Class<?> srcClass = obj.getClass();
+        if(targetClass.isAssignableFrom(srcClass)) {
+            return (T) obj;
+        }
+        if(targetClass == Boolean.TYPE || targetClass == Boolean.class) {
+            return (T) toBool(obj, Boolean.FALSE);
+        }
+        if(targetClass == Character.TYPE || targetClass == Character.class) {
+            return (T) toChar(obj, null);
+        }
+        if(CharSequence.class.isAssignableFrom(targetClass)) {
+            return (T) toStr(obj, "");
+        }
+        if(Number.class.isAssignableFrom(targetClass) || targetClass.isPrimitive()) {
+            Class<? extends Number> clazz = (Class<? extends Number>) targetClass;
+            return (T) Converter.TO_NUMBER_CONVERTER.convert(obj, clazz);
+        }
+        if(targetClass.isArray()) {
+            if(obj instanceof Collection) {
+                return (T) toArray((Collection) obj, targetClass.getComponentType(), null);
+            }
+            if(targetClass == byte[].class) {
+                return (T) toBytes(obj, null);
+            }
+        }
+        if(targetClass.isEnum()) {
+            return (T) toEnum(obj, (Class<? extends Enum>) targetClass, null);
+        }
+        if(targetClass == Date.class) {
+            return (T) toDate(obj, (Date) null);
+        }
+        if(targetClass == java.sql.Date.class) {
+            return (T) toSqlDate(obj, null);
+        }
+        if(targetClass == Time.class) {
+            return (T) toSqlTime(obj, null);
+        }
+        if(targetClass == Timestamp.class) {
+            return (T) toSqlTimestamp(obj, null);
+        }
+        if(targetClass == Charset.class) {
+            return (T) toChar(obj.toString(), null);
+        }
+        if(targetClass == TimeZone.class) {
+            return (T) toTimeZone(obj.toString(), null);
+        }
+        if(targetClass == Locale.class) {
+            return (T) toLocale(obj.toString(), null);
+        }
+        throw new CastException(srcClass, targetClass);
     }
 
 }

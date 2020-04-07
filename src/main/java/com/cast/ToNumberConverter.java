@@ -33,6 +33,19 @@ class ToNumberConverter extends ConditionConverter<Number> {
         if (obj == null) {
             return null;
         }
+        if(targetClass == Byte.TYPE) {
+            targetClass = (Class<T>) Byte.class;
+        } else if(targetClass == Short.TYPE) {
+            targetClass = (Class<T>) Short.class;
+        } else if(targetClass == Integer.TYPE) {
+            targetClass = (Class<T>) Integer.class;
+        } else if(targetClass == Long.TYPE) {
+            targetClass = (Class<T>) Long.class;
+        } else if(targetClass == Float.TYPE) {
+            targetClass = (Class<T>) Float.class;
+        } else if(targetClass == Double.TYPE) {
+            targetClass = (Class<T>) Double.class;
+        }
         if(obj.getClass() == targetClass) {
             return (T) obj;
         }

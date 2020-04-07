@@ -243,10 +243,9 @@ final class Utils {
 
     /**
      * 将指定的 {@code Collection} 转换为字符串.
-     * <p></p>
      *
      * @param value 被转换的集合
-     * @return
+     * @return 转换后的 {@code String} 值，如果指定的集合为 {@code null} 或空，则返回空字符串
      */
     static String collectionToString(Collection value) {
         if (value == null || value.isEmpty()) {

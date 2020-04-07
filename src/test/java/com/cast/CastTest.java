@@ -110,4 +110,14 @@ public class CastTest {
         assertNull(Cast.toCharset("abc", null));
     }
 
+    @Test
+    public void testTo() {
+        assertEquals(' ', (char) Cast.to("", ' '));
+        assertEquals(' ', (char) Cast.to("abc", ' '));
+        assertEquals(' ', (char) Cast.to(null, ' '));
+        assertEquals(1, (char) Cast.to(1, ' '));
+        assertEquals('a', (char) Cast.to('a', ' '));
+        assertEquals(' ', (char) Cast.to(new Date(), ' '));
+    }
+
 }
