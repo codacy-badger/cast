@@ -811,17 +811,21 @@ public final class Cast {
             return (T) obj;
         }
         if(targetClass == Boolean.TYPE || targetClass == Boolean.class) {
-            return (T) toBool(obj, Boolean.FALSE);
+            return (T) toBool(obj, null);
         }
         if(targetClass == Character.TYPE || targetClass == Character.class) {
             return (T) toChar(obj, null);
         }
         if(CharSequence.class.isAssignableFrom(targetClass)) {
-            return (T) toStr(obj, "");
+            return (T) toStr(obj, null);
         }
         if(Number.class.isAssignableFrom(targetClass) || targetClass.isPrimitive()) {
             Class<? extends Number> clazz = (Class<? extends Number>) targetClass;
-            return (T) Converter.TO_NUMBER_CONVERTER.convert(obj, clazz);
+            try {
+                return (T) Converter.TO_NUMBER_CONVERTER.convert(obj, clazz);
+            } catch (Exception e) {
+                return null;
+            }
         }
         if(targetClass.isArray()) {
             if(obj instanceof Collection) {
@@ -855,7 +859,7 @@ public final class Cast {
         if(targetClass == Locale.class) {
             return (T) toLocale(obj.toString(), null);
         }
-        throw new CastException(srcClass, targetClass);
+        return null;
     }
 
 }

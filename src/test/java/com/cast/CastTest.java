@@ -112,12 +112,28 @@ public class CastTest {
 
     @Test
     public void testTo() {
-        assertEquals(' ', (char) Cast.to("", ' '));
-        assertEquals(' ', (char) Cast.to("abc", ' '));
-        assertEquals(' ', (char) Cast.to(null, ' '));
-        assertEquals(1, (char) Cast.to(1, ' '));
-        assertEquals('a', (char) Cast.to('a', ' '));
-        assertEquals(' ', (char) Cast.to(new Date(), ' '));
+        assertNull(Cast.to("", Character.class));
+        assertNull(Cast.to("abc", Character.class));
+        assertNull(Cast.to(null, Character.class));
+        assertEquals(1, (char) Cast.to(1, Character.class));
+        assertEquals('a', (char) Cast.to('a', Character.class));
+        assertNull(Cast.to(new Date(), Character.class));
+
+        assertNull(Cast.to(null, String.class));
+        assertEquals("test", Cast.to("test", String.class));
+        assertEquals("1,2,3", Cast.to(new int[]{1, 2, 3}, String.class));
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        assertEquals("a,b,c", Cast.to(list, String.class));
+        assertEquals("VALUE1", Cast.to(TestEnum.VALUE1, String.class));
+
+        list = new ArrayList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        assertArrayEquals(new String[]{"A", "B", "C"}, Cast.to(list, String[].class));
     }
 
 }
